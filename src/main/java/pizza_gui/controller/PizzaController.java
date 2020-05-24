@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import pizza_gui.model.Ingredients;
 import pizza_gui.model.Pizza;
 import pizza_gui.model.PizzaModel;
+import pizza_gui.service.PizzaSevice;
 
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class PizzaController {
     // Aby dodać kolekcję do obiektów do kontrolek FXML korzystamy ObservableLst
     private ObservableList<PizzaModel> pizzas=FXCollections.observableArrayList();
-
+private PizzaSevice pizzaSevice=new PizzaSevice();
     @FXML
     private TableView<PizzaModel> tblPizza;   // Klasa modelu
 
@@ -57,6 +58,20 @@ public class PizzaController {
 
         System.out.println("Zamówiono");
 
+    }
+    @FXML
+    public void selectPizzaAction(MouseEvent mouseEvent) {
+        //odczyt,który rekord został zaznaczny
+        PizzaModel slectedPizza =tblPizza.getSelectionModel().getSelectedItem();
+
+        //dodanie okna do zamóienia  ilości pizzy
+    }
+
+    public void initialize(){
+        //wywoływanie metod zaimplementowanych w logice biznesowej aplikacji
+        pizzas=pizzaSevice.addPizzas(pizzas);
+        pizzaSevice.insertPizzasToTable(tblPizza,tcName,tcIngridients,tcType,tcPrice,pizzas);
+        pizzaSevice.pizzaOfTheDayGenerator(pizzas, randomPizza);
     }
 
 }

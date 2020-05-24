@@ -30,7 +30,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Separator>
-            <TableView fx:id="tblPizza" prefHeight="700.0" prefWidth="800.0">
+            <TableView fx:id="tblPizza" onMouseClicked="#selectPizzaAction" prefHeight="700.0" prefWidth="800.0">
               <columns>
                 <TableColumn fx:id="tcName" minWidth="160.0" prefWidth="160.0" text="NAZWA" />
                   <TableColumn fx:id="tcIngridients" minWidth="420.0" prefWidth="420.0" text="SKŁADNIKI" />
