@@ -3,7 +3,8 @@ package pizza_gui.model;
 import java.util.Arrays;
 import java.util.List;
 
-import static pl.sda.pizzaExercise.model.Ingredients.*;
+import static pizza_gui.model.Ingredients.*;
+
 
 
 public enum Pizza {
