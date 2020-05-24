@@ -63,7 +63,7 @@ public class PizzaSevice {
         });
 
         tblPizza.setItems(pizzas);
-       ///generator pizzy dnia -> obiżenie cenny, przekazanie nazwy Pizzy dnia do Lable'a
+
 
     }
 
@@ -74,13 +74,13 @@ public class PizzaSevice {
         //obniżaie ceny pizzy dnia o 20%
         pizzas.get(randomIndex).setPrice(pizzas.get(randomIndex).getPrice() * 0.8);
         // wypisanie nazwy pizzy w Labelu
-        randomPizza.setText(pizzaOfTheDay.getName() + " - " + pizzaOfTheDay.getPrice() + " zł");
+        randomPizza.setText(String.format("%s - %.2f zł", pizzaOfTheDay.getName(),pizzaOfTheDay.getPrice()));
     }
-
+    
 
     private List<Integer> choices = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
     // metoda do wybierania i przenoszenia pizzy do koszyka
-    public void addToBasket(TableView<PizzaModel> tblPizza){
+    public void addToBasket(TableView<PizzaModel> tblPizza, TextArea taBasket){
         // odczyt, który wiersz w tabelce został zaznaczony
         PizzaModel selectedPizza = tblPizza.getSelectionModel().getSelectedItem();
         // utworzenie okna kontekstowego do zamówienia wybranej ilości pizzy
@@ -91,10 +91,18 @@ public class PizzaSevice {
         // okno zostaje wyświetlone i utrzymane na ekranie i zwróci wartość po wciśnięciu przycisku
         Optional<Integer> result = addToBasketDialog.showAndWait();
         // gdy wybrano OK
-     
+        result.ifPresent(quantity -> taBasket.appendText(
+                String.format("%-15s %5d szt. %10.2f zł\n",
+                        selectedPizza.getName(),quantity, selectedPizza.getPrice() * quantity)));
+
     }
 
     //-----------------------------------------------------------------------------------------------------------------
-
+public void clearOrder(TextArea taBasket, TextField tfPhone, TextField tfAdress, Label lblSum ){
+        taBasket.clear();
+        tfAdress.clear();
+        tfPhone.clear();
+        lblSum.setText("KWOTA DO ZAPŁATY: 0.00 ZŁ");
+}
 
 }

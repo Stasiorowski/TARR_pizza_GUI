@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 public class PizzaController {
     // Aby dodać kolekcję do obiektów do kontrolek FXML korzystamy ObservableLst
     private ObservableList<PizzaModel> pizzas=FXCollections.observableArrayList();
-private PizzaSevice pizzaSevice=new PizzaSevice();
+    private PizzaSevice pizzaSevice=new PizzaSevice();
+
     @FXML
     private TableView<PizzaModel> tblPizza;   // Klasa modelu
 
@@ -38,6 +39,8 @@ private PizzaSevice pizzaSevice=new PizzaSevice();
 
     @FXML
     private Label randomPizza;
+    @FXML
+    private Label lblSum;
 
     @FXML
     private TextArea taBasket;
@@ -50,7 +53,7 @@ private PizzaSevice pizzaSevice=new PizzaSevice();
 
     @FXML
     void cleanAction(MouseEvent event) {
-
+        pizzaSevice.clearOrder(taBasket, tfPhone,tfAdress, lblSum);
     }
 
     @FXML
@@ -59,12 +62,10 @@ private PizzaSevice pizzaSevice=new PizzaSevice();
         System.out.println("Zamówiono");
 
     }
-    @FXML
-    public void selectPizzaAction(MouseEvent mouseEvent) {
-        //odczyt,który rekord został zaznaczny
-        PizzaModel slectedPizza =tblPizza.getSelectionModel().getSelectedItem();
 
-        //dodanie okna do zamóienia  ilości pizzy
+    @FXML
+    void selectPizzaAction(MouseEvent mouseEvent) {
+        pizzaSevice.addToBasket(tblPizza, taBasket);
     }
 
     public void initialize(){
