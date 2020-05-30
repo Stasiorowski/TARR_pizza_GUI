@@ -14,6 +14,7 @@ import pizza_gui.model.Pizza;
 import pizza_gui.model.PizzaModel;
 import pizza_gui.service.PizzaSevice;
 
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -58,14 +59,15 @@ public class PizzaController {
 
     @FXML
     void orderAction(MouseEvent event) {
-
+        pizzaSevice.getOrder(tfPhone, tfAdress,taBasket,lblSum);
         System.out.println("Zamówiono");
-
+        System.out.println("Adres zamowienia "+pizzaSevice.isAddressValid(tfAdress.getText()));
+        System.out.println("telefon kontaktowy"+pizzaSevice.isPhoneValid(tfPhone.getText()));
     }
 
     @FXML
     void selectPizzaAction(MouseEvent mouseEvent) {
-        pizzaSevice.addToBasket(tblPizza, taBasket);
+        pizzaSevice.addToBasket(tblPizza, taBasket, lblSum);
     }
 
     public void initialize(){
@@ -73,6 +75,7 @@ public class PizzaController {
         pizzas=pizzaSevice.addPizzas(pizzas);
         pizzaSevice.insertPizzasToTable(tblPizza,tcName,tcIngridients,tcType,tcPrice,pizzas);
         pizzaSevice.pizzaOfTheDayGenerator(pizzas, randomPizza);
+
     }
 
 }

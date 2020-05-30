@@ -90,7 +90,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="tfPhone" promptText="Podaj nr telefonu">
+            <TextField fx:id="tfPhone" promptText="Podaj nr telefonu  [ xxx-xxx-xxx}">
                <VBox.margin>
                   <Insets left="150.0" right="150.0" />
                </VBox.margin>
@@ -98,12 +98,12 @@
                   <Font size="24.0" />
                </font>
             </TextField>
-            <TextField fx:id="tfAdress" promptText="Podaj adres dostawy">
+            <TextField fx:id="tfAdress" promptText="Podaj adres dostawy (Ulica, kod pocztowy miasto)">
                <VBox.margin>
                   <Insets left="150.0" right="150.0" />
                </VBox.margin>
                <font>
-                  <Font size="24.0" />
+                  <Font size="20.0" />
                </font>
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0">
