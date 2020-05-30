@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -174,6 +175,7 @@ public class PizzaSevice {
     public void saveDataToFile(TextField tfAddress, TextField tfPhone, TextArea taBasket)  {
         try{
         FileChooser fileChooser = new FileChooser();
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         //konfiguraja filtra rozszerzeń plików
         FileChooser.ExtensionFilter extFilter = new FileChooser.
                 ExtensionFilter("Plik Tekstowy(*.txt)","*.txt");
@@ -185,10 +187,10 @@ public class PizzaSevice {
 
         printWriter.println("POTWIERDZENIE ZAMÓWIENIA");
         LocalDateTime dateTime = LocalDateTime.now();
-        printWriter.println("Data i czas złożenia zamówienia: "+ dateTime);
+        printWriter.println("Data i czas złożenia zamówienia: "+ dateTime.format(dtf));
         printWriter.println("Adres dostawy: "+tfAddress.getText());
         printWriter.println("Telefon Kotaktowy: "+tfPhone.getText());
-        printWriter.println("Czas dostawy: "+ dateTime.plusMinutes(45));
+        printWriter.println("Czas dostawy: "+ dateTime.plusMinutes(45).format(dtf));
         printWriter.println("Zawartość zamówienia: \n" + taBasket.getText());
         printWriter.println(" Łączna kwota do zapłaty: "+ amount + " zł");
         printWriter.close();
