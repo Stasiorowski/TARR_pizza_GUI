@@ -4,12 +4,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import pizza_gui.model.Ingredients;
 import pizza_gui.model.Pizza;
 import pizza_gui.model.PizzaModel;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -131,7 +136,7 @@ public class PizzaSevice {
                 matches("^[au][l][\\.]\\s*[A-Za-złóżźńśćłęą\\.\\d\\s]+\\d+[A-Za-z]*[\\\\\\/]*\\d*,\\s*\\d{2}-\\d{3}\\s[A-Za-zzłóżźąńśćłę\\s\\-]*$", address);
     }
 
-    public void getOrder(TextField tfPhone, TextField tfAddress, TextArea taBasket, Label lblSum) {
+    public void getOrder(TextField tfPhone, TextField tfAddress, TextArea taBasket, Label lblSum)  {
         if (isPhoneValid(tfPhone.getText()) && isAddressValid(tfAddress.getText()) && !taBasket.getText().equals("")) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Potwierdzenie Zamówienia");
@@ -139,6 +144,7 @@ public class PizzaSevice {
             alert.setContentText("Twoje zamówienie : \n" + taBasket.getText() + "\nŁączna kwota do zapłaty: \n" + amount + " zł");
 
             alert.showAndWait();
+            saveDataToFile(tfAddress,tfPhone,taBasket);
             clearOrder(taBasket, tfPhone, tfAddress, lblSum);
         } else {
             Alert alert = new Alert(AlertType.ERROR);
@@ -165,4 +171,29 @@ public class PizzaSevice {
         }
     }
 
+    public void saveDataToFile(TextField tfAddress, TextField tfPhone, TextArea taBasket)  {
+        try{
+        FileChooser fileChooser = new FileChooser();
+        //konfiguraja filtra rozszerzeń plików
+        FileChooser.ExtensionFilter extFilter = new FileChooser.
+                ExtensionFilter("Plik Tekstowy(*.txt)","*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file =fileChooser.showSaveDialog(null);
+        PrintWriter printWriter = null;
+
+        printWriter = new PrintWriter(file);
+
+        printWriter.println("POTWIERDZENIE ZAMÓWIENIA");
+        LocalDateTime dateTime = LocalDateTime.now();
+        printWriter.println("Data i czas złożenia zamówienia: "+ dateTime);
+        printWriter.println("Adres dostawy: "+tfAddress.getText());
+        printWriter.println("Telefon Kotaktowy: "+tfPhone.getText());
+        printWriter.println("Czas dostawy: "+ dateTime.plusMinutes(45));
+        printWriter.println("Zawartość zamówienia: \n" + taBasket.getText());
+        printWriter.println(" Łączna kwota do zapłaty: "+ amount + " zł");
+        printWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
